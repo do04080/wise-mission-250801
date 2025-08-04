@@ -27,11 +27,22 @@ public class Main {
             } else if(command.equals("목록")){
                 System.out.println("번호 / 작가 / 명언");
                 System.out.println("-------------------");
-                for(int i=0;i<list.size();i++){
+                for(int i=list.size()-1;i>=0;i--){
                     System.out.println("%d / %s / %s " .formatted(list.get(i).num,list.get(i).author,list.get(i).content));
                 }
-            }
-            else if(command.equals("종료")) break;
+            } else if (command.startsWith("삭제?id=")) {
+                String[] com=command.split("=");
+                if(com.length==2) {
+                    int num = Integer.parseInt(com[1]);
+
+                    for(int i=0;i<list.size();i++){
+                        if(list.get(i).num==num) {
+                            list.remove(i);
+                            System.out.println(num + "번 명언이 삭제되었습니다.");
+                        }
+                    }
+                }
+            } else if(command.equals("종료")) break;
         }
     }
 }
