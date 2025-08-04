@@ -40,13 +40,34 @@ public class Main {
                             list.remove(i);
                             System.out.println(num + "번 명언이 삭제되었습니다.");
                             check=true;
+                            break;
                         }
                     }
                     if(!check){
                         System.out.println(num+"번 명언은 존재하지 않습니다.");
                     }
                 }
-            } else if(command.equals("종료")) break;
+            }else if (command.startsWith("수정?id=")) {
+                String[] com=command.split("=");
+                if(com.length==2) {
+                    int num = Integer.parseInt(com[1]);
+                    boolean check =false;
+                    for(int i=0;i<list.size();i++){
+                        if(list.get(i).num==num) {
+                            System.out.println("명언(기존) : " + list.get(i).content);
+                            System.out.print("명언 : ");
+                            list.get(i).content=sc.nextLine();
+                            System.out.println("작가(기존) : " + list.get(i).author);
+                            System.out.print("작가 : ");
+                            list.get(i).author=sc.nextLine();
+                            check=true;
+                        }
+                    }
+                    if(!check){
+                        System.out.println(num+"번 명언은 존재하지 않습니다.");
+                    }
+                }
+            }else if(command.equals("종료")) break;
         }
     }
 }
