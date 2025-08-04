@@ -10,7 +10,6 @@ public class Main {
 
         String content="";
         String author="";
-        int count=1;
 
         while (true) {
             System.out.print("명령)");
@@ -20,9 +19,6 @@ public class Main {
                 content=sc.nextLine();
                 System.out.print("작가 : ");
                 author=sc.nextLine();
-                System.out.println(count+"본 명언이 등록되었습니다.");
-                count++;
-
             } else if(command.equals("종료")) break;
         }
 
