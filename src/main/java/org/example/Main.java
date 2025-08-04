@@ -21,6 +21,5 @@ public class Main {
                 author=sc.nextLine();
             } else if(command.equals("종료")) break;
         }
-
     }
 }
