@@ -34,12 +34,16 @@ public class Main {
                 String[] com=command.split("=");
                 if(com.length==2) {
                     int num = Integer.parseInt(com[1]);
-
+                    boolean check =false;
                     for(int i=0;i<list.size();i++){
                         if(list.get(i).num==num) {
                             list.remove(i);
                             System.out.println(num + "번 명언이 삭제되었습니다.");
+                            check=true;
                         }
+                    }
+                    if(!check){
+                        System.out.println(num+"번 명언은 존재하지 않습니다.");
                     }
                 }
             } else if(command.equals("종료")) break;
