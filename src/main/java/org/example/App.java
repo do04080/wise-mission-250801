@@ -1,13 +1,14 @@
 package org.example;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class App {
 
-    List<WiseSaying> list = new ArrayList<>();
-    int count=0;
+
+
+    List<WiseSaying> list = FileUtil.loadList();;
+    int count = FileUtil.loadLastId();
     String command;
     Scanner sc = new Scanner(System.in);
 
@@ -19,36 +20,43 @@ public class App {
             System.out.print("명령)");
             command=sc.nextLine();
             if(command.equals("등록")) {
-                Actionwrite();
+                actionWrite();
             } else if(command.equals("목록")){
-                Actionlist();
+                actionList();
             } else if (command.startsWith("삭제?id=")) {
-                Actiondelete();
+                actionDelete();
             }else if (command.startsWith("수정?id=")) {
-                Actionrewrite();
-            }else if(command.equals("종료")) break;
+                actionModify();
+            } else if (command.equals("빌드")) {
+                FileUtil.saveList(list);
+                FileUtil.saveLastId(count);
+                System.out.println("data.json 파일의 내용이 갱신되었습니다.");
+            } else if(command.equals("종료")) break;
         }
     }
 
-    public void Actionwrite(){
+    public void actionWrite(){
         System.out.print("명언 : ");
         String content=sc.nextLine();
         System.out.print("작가 : ");
         String author=sc.nextLine();
         count++;
-        list.add(new WiseSaying(count,content,author));
-        System.out.println(count+"번 명언이 등록되었습니다.");
+        WiseSaying ws = new WiseSaying(count, content, author);
+        list.add(ws);
+        FileUtil.saveList(list);
+        FileUtil.saveLastId(count);
+        System.out.println(count + "번 명언이 등록되었습니다.");
     }
 
-    public void Actionlist(){
+    public void actionList(){
         System.out.println("번호 / 작가 / 명언");
         System.out.println("-------------------");
-        for(int i=list.size()-1;i>=0;i--){
-            System.out.println("%d / %s / %s " .formatted(list.get(i).num,list.get(i).author,list.get(i).content));
+        for(WiseSaying ws:list){
+            System.out.println("%d / %s / %s " .formatted(ws.num,ws.author,ws.content));
         }
     }
 
-    public void Actiondelete(){
+    public void actionDelete(){
         String[] com=command.split("=");
         if(com.length==2) {
             int num = Integer.parseInt(com[1]);
@@ -67,7 +75,7 @@ public class App {
         }
     }
 
-    public void Actionrewrite(){
+    public void actionModify(){
         String[] com=command.split("=");
         if(com.length==2) {
             int num = Integer.parseInt(com[1]);
@@ -79,7 +87,8 @@ public class App {
                     list.get(i).content=sc.nextLine();
                     System.out.println("작가(기존) : " + list.get(i).author);
                     System.out.print("작가 : ");
-                    list.get(i).author=sc.nextLine();
+                    FileUtil.saveList(list);
+                    System.out.println(num + "번 명언이 수정되었습니다.");
                     check=true;
                 }
             }
